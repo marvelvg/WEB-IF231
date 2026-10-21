@@ -91,6 +91,8 @@ form.addEventListener('submit', e => {
   } 
   else{
     pesan.textContent = "email valid";
+    e.preventDefault()
+    input.disabled = true;
   }
 
   form.classList.add('was-validated')

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Another UI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body id="body">
+    <div id="kotak" class="container shadow mt-5 p-5 ">
+        <form id="anjay">
+            <div class="form-floating d-flex">
+                <input id="tugas" type="text" class="form-control" placeholder="Tugas" required>
+                <label class="form-label" id="tugas">Tugas</label>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+
+        </form>
+        <ul id="Daftar-Tugas" class="container">
+
+        </ul>
+    </div>
+
+
+    <div class="container shadow mt-5 ">
+        <h1> Dark Mode</h1>
+        <form id="isi">
+            <input id="input" type="checkbox">
+        </form>
+    </div>
+</body>
+
+<script>
+
+    const check = document.getElementById("input");
+    const body = document.getElementById("body");
+
+    // Local
+    const saveMode = localStorage.getItem("darkMode");
+
+    if (saveMode === "true") {
+        body.classList.add("bg-dark");
+        check.checked = true;
+    }
+
+    check.addEventListener('click', () => {
+        if (check.checked) {
+            body.classList.add("bg-dark");
+                    localStorage.setItem("darkMode", "true");
+
+        }
+
+        else{
+            body.classList.remove("bg-dark");
+                    localStorage.setItem("darkMode", "false");
+
+        }
+    })
+
+
+    const form = document.getElementById("anjay");
+    const input = document.getElementById("tugas");
+    const List = document.getElementById("Daftar-Tugas");
+    const kotak = document.getElementById("kotak");
+
+    console.log(form, input, List, kotak);
+    form.addEventListener('submit', e => {
+
+        if (!input) return;
+        const node = document.createElement('li');
+        const hapus = document.createElement('button');
+
+        hapus.textContent = "Hapus";
+        hapus.classList.add("btn");
+        hapus.classList.add("delete-btn");
+        hapus.classList.add("btn-danger");
+        hapus.classList.add("ms-2");
+        hapus.classList.add("my-2");
+
+        hapus.type = 'button';
+
+
+        node.textContent = input.value;
+        List.appendChild(node);
+        node.appendChild(hapus);
+                saveTugas();
+
+        input.value = "";
+        e.preventDefault();
+
+
+    })
+
+    List.addEventListener('click', e => {
+        const tombol = e.target.closest('.delete-btn');
+        if (!tombol) return;
+
+        tombol.parentElement.remove();
+        saveTugas();
+    })
+
+function saveTugas(){
+    localStorage.setItem("Daftar-Tugas", List.innerHTML);
+}
+
+List.innerHTML = localStorage.getItem("Daftar-Tugas");
+</script>
+
+</html>

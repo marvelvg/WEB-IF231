@@ -31,9 +31,136 @@
             <input id="input" type="checkbox">
         </form>
     </div>
+
+    <div class="container shadow mt-5 p-5">
+        <form class="form-floating">
+            <input class="form-control" id="x" type="text" placeholder="Masukkan bahasa">
+            <label for="x" class="form-label">Masukkan bahasa</label>
+        </form>
+
+        <ul id="y">
+            <li>Javascript</li>
+            <li>C</li>
+            <li>Rust</li>
+            <li>Golang</li>
+            <li>Python</li>
+            <li>C++</li>
+            <li>R</li>
+        </ul>
+
+    </div>
+
+
+    <div class="container shadow mt-5">
+        <button id="muat-data" class="btn btn-primary"> Muat Data </button>
+        <p class="text-primary" id="message"></p>
+        <ul id="keranjang"></ul>
+    </div>
+
+
 </body>
 
 <script>
+    const link = "https://jsonplaceholder.typicode.com/users";
+    const keranjang = document.getElementById("keranjang");
+
+
+
+    async function anjay() {
+        keranjang.innerHTML = "";
+
+        try {
+            const simpan = await fetch(link);
+            const receive = await simpan.json();
+
+
+            receive.forEach((data, index) => {
+                const isiKeranjang = document.createElement("li")
+
+                isiKeranjang.textContent = data.name;
+                keranjang.appendChild(isiKeranjang);
+            })
+
+        } catch (err) {
+            const message = document.getElementById("message");
+            message.textContent = "Error Mas....";
+        };
+
+    }
+
+    const successor = document.getElementById("muat-data");
+    let toggler = false;
+
+
+    successor.addEventListener('click', () => {
+        const message = document.getElementById("message");
+
+        if (!toggler) {
+            message.textContent = "memuat data....";
+
+            setTimeout(() => {
+                anjay();
+            }, 900);
+
+            setTimeout(() => {
+                message.textContent = " ";
+            }, 900)
+            toggler = true;
+        }
+        else {
+            keranjang.innerHTML = "";
+            toggler = false;
+        }
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const bahasa = document.getElementById("x");
+    const DaftarBahasa = document.querySelectorAll("#y li");
+
+    // map cuma bisa untuk array kalo node list biasana harus pake for eadch
+    // metode berikut adalah metode mengubah node list menjadi array
+    [...DaftarBahasa].map((bahasa, index) => {
+        console.log(bahasa.textContent);
+    })
+
+    bahasa.addEventListener('input', () => {
+        const match = bahasa.value.toLowerCase();
+
+        DaftarBahasa.forEach((item) => {
+            const namaBahasa = item.textContent.toLowerCase();
+
+            if (namaBahasa.includes(match)) {
+                // Fungsi buat reset none
+                item.style.display = "";
+            }
+
+            else {
+                item.style.display = "none"
+            }
+        });
+
+    });
+
+
+
 
     const check = document.getElementById("input");
     const body = document.getElementById("body");
@@ -49,13 +176,13 @@
     check.addEventListener('click', () => {
         if (check.checked) {
             body.classList.add("bg-dark");
-                    localStorage.setItem("darkMode", "true");
+            localStorage.setItem("darkMode", "true");
 
         }
 
-        else{
+        else {
             body.classList.remove("bg-dark");
-                    localStorage.setItem("darkMode", "false");
+            localStorage.setItem("darkMode", "false");
 
         }
     })
@@ -86,7 +213,7 @@
         node.textContent = input.value;
         List.appendChild(node);
         node.appendChild(hapus);
-                saveTugas();
+        saveTugas();
 
         input.value = "";
         e.preventDefault();
@@ -102,11 +229,11 @@
         saveTugas();
     })
 
-function saveTugas(){
-    localStorage.setItem("Daftar-Tugas", List.innerHTML);
-}
+    function saveTugas() {
+        localStorage.setItem("Daftar-Tugas", List.innerHTML);
+    }
+    List.innerHTML = localStorage.getItem("Daftar-Tugas");
 
-List.innerHTML = localStorage.getItem("Daftar-Tugas");
 </script>
 
 </html>

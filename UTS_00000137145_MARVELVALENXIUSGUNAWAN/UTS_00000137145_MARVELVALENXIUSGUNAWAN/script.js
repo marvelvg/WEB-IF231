@@ -15,7 +15,25 @@ const plants = [
 
 console.log("processing data,,,");
 console.log(plants);
+const row = document.querySelector("#box-utama .row");
 
+function render(list) {
+  row.innerHTML = list.map(p => `
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="box-style card h-100 bg-color text-dark border-0">
+        <h1 class="text-center my-5"> ${p.icon} </h1>
+        <div class="card-body d-flex flex-column">
+          <button class="type btn btn-outline-success w-25">${p.category}</button>
+          <h2 class="item-name card-title">${p.name}</h2>
+          <p class="item-price card-text mt-auto fw-bold">Rp ${p.price.toLocaleString("id-ID")}</p>
+          <button class="keranjang btn btn-success">+Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+render(plants);
 
 // Category
 const semua = document.getElementById("semua");
@@ -23,24 +41,38 @@ const masuk = document.getElementById("indoors");
 const keluar = document.getElementById("outdoors");
 const tertentu = document.getElementById("succulent");
 
+// Target
+const type = document.querySelectorAll(".type");
+const itemname = document.querySelectorAll(".item-name");
+const itemprice = document.querySelectorAll(".item-price");
 
 // Kotak utama parent
 const ayah = document.getElementById("box-utama");
+const tombol = [semua, masuk, keluar, tertentu];
+
+function setActive(btn) {
+  tombol.forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
 
 semua.addEventListener("click", () => {
-  semua.classList.add("active");
+  setActive(semua);
+  render(plants);
 });
 
 masuk.addEventListener("click", () => {
-  masuk.classList.add("active");
+  setActive(masuk);
+  render(plants.filter(p => p.category === "Indoor"));
 });
 
 keluar.addEventListener("click", () => {
-  keluar.classList.add("active");
+  setActive(keluar);
+  render(plants.filter(p => p.category === "Outdoor"));
 });
 
 tertentu.addEventListener("click", () => {
-  tertentu.classList.add("active");
+  setActive(tertentu);
+  render(plants.filter(p => p.category === "Succulent"));
 });
 
 // Fitur keranjang

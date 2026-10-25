@@ -1,0 +1,18 @@
+/* =========================================================
+   GreenLeaf Plant Store — custom styling (Feature 1 rubric:
+   "custom styling beyond Bootstrap defaults")
+   ========================================================= */
+
+:root {
+  --green-dark: #2f5233;
+  --green: #4c8c4a;
+  --green-light: #e9f3e6;
+  --cream: #faf7f0;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--cream);
+  color: #233023;
+}
